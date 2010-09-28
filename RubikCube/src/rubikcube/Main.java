@@ -34,49 +34,7 @@ public class Main {
             Cube rubik = new Cube();
             //Read File Line By Line
             while ((strLine = br.readLine()) != null) {
-                if(strLine.equals("X")) {
-                    //Call the X function
-                } else if(strLine.equals("X'")) {
-                    //Call the X' function
-                } else if(strLine.equals("Y")) {
-                    //call the Y function
-                } else if(strLine.equals("Y'")) {
-                    //call the Y' function
-                } else if(strLine.equals("Z")) {
-                    //call the Z function
-                } else if(strLine.equals("Z'")) {
-                    //call the Z' function
-                } else if(strLine.equals("U")) {
-                    //turn the top face
-                } else if(strLine.equals("U'")) {
-                    //turn the top face
-                } else if(strLine.equals("D")) {
-                    //turn the bottom face
-                } else if(strLine.equals("D'")) {
-                    //turn the bottom face
-                } else if(strLine.equals("F")) {
-                    //turn the front face
-                } else if(strLine.equals("F'")) {
-                    //turn the front face
-                } else if(strLine.equals("B")) {
-                    //turn the back face
-                } else if(strLine.equals("B'")) {
-                    //turn the back face
-                } else if(strLine.equals("R")) {
-                    //turn the right face
-                } else if(strLine.equals("R'")) {
-                    //turn the right face
-                } else if(strLine.equals("L")) {
-                    //turn the left face
-                } else if(strLine.equals("L'")) {
-                    //turn the left face
-                } else if(strLine.equals("RESET")) {
-                    rubik.reset();
-                } else if(strLine.equals("OUTPUT")) {
-                    rubik.print();
-                } else {
-                    rubik.change(strLine);
-                }
+                rubik.manipulate(strLine);
             }
             //Close the input stream
             in.close();
