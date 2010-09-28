@@ -82,6 +82,7 @@ public class Cube {
         LEFT = 4;
         BOTTOM = 5;
     }
+    @Override
     public String toString() {
         String txt = new String(cubic[0]);
         for(int i = 1; i < 6; i++) {
@@ -92,6 +93,49 @@ public class Cube {
     public void print() {
         System.out.println(this.toString());
     }
-
-
+    public void manipulate(String command) {
+        if (command.equals("X")) {
+            //Call the X function
+        } else if (command.equals("X'")) {
+            //Call the X' function
+        } else if (command.equals("Y")) {
+            //call the Y function
+        } else if (command.equals("Y'")) {
+            //call the Y' function
+        } else if (command.equals("Z")) {
+            //call the Z function
+        } else if (command.equals("Z'")) {
+            //call the Z' function
+        } else if (command.equals("U")) {
+            //turn the top face
+        } else if (command.equals("U'")) {
+            //turn the top face
+        } else if (command.equals("D")) {
+            //turn the bottom face
+        } else if (command.equals("D'")) {
+            //turn the bottom face
+        } else if (command.equals("F")) {
+            //turn the front face
+        } else if (command.equals("F'")) {
+            //turn the front face
+        } else if (command.equals("B")) {
+            //turn the back face
+        } else if (command.equals("B'")) {
+            //turn the back face
+        } else if (command.equals("R")) {
+            //turn the right face
+        } else if (command.equals("R'")) {
+            //turn the right face
+        } else if (command.equals("L")) {
+            //turn the left face
+        } else if (command.equals("L'")) {
+            //turn the left face
+        } else if (command.equals("RESET")) {
+            this.reset();
+        } else if (command.equals("OUTPUT")) {
+            this.print();
+        } else {
+            this.change(command);
+        }
+    }
 }
