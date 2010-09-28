@@ -20,13 +20,15 @@ public class Cube {
 
     private int FRONT;
     private int BACK;
-    private int UP;
-    private int DOWN;
+    private int TOP;
+    private int BOTTOM;
     private int LEFT;
-    private int RIGET;
+    private int RIGHT;
 
-    public Cube(String CubeInText) {
+    public Cube() {
         //parse string into Lists
+        String CubeInText =
+                "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW";
         char[] CubeInChar = CubeInText.toCharArray();
         int k = 0;
         for(int i = 0; i < 6; i++) {
@@ -35,13 +37,60 @@ public class Cube {
                 k++;
             }
         }
+        TOP = 0;
+        FRONT = 1;
+        RIGHT = 2;
+        BACK = 3;
+        LEFT = 4;
+        BOTTOM = 5;
     }
-
-    public String toText(Cube c) {
-        return null;
+    public void reset() {
+        String CubeInText =
+                "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW";
+        char[] CubeInChar = CubeInText.toCharArray();
+        int k = 0;
+        for(int i = 0; i < 6; i++) {
+            for(int j = 0; j < 9; j++) {
+                cubic[i][j] = CubeInChar[k];
+                k++;
+            }
+        }
+        TOP = 0;
+        FRONT = 1;
+        RIGHT = 2;
+        BACK = 3;
+        LEFT = 4;
+        BOTTOM = 5;
+    }
+    public void change(String CubeInText) {
+        if (CubeInText.length() != 54) {
+            return;
+        } else {
+            char[] CubeInChar = CubeInText.toCharArray();
+            int k = 0;
+            for (int i = 0; i < 6; i++) {
+                for (int j = 0; j < 9; j++) {
+                    cubic[i][j] = CubeInChar[k];
+                    k++;
+                }
+            }
+        }
+        TOP = 0;
+        FRONT = 1;
+        RIGHT = 2;
+        BACK = 3;
+        LEFT = 4;
+        BOTTOM = 5;
+    }
+    public String toString() {
+        String txt = new String(cubic[0]);
+        for(int i = 1; i < 6; i++) {
+            txt = txt + String.valueOf(cubic[i]);
+        }
+        return(txt);
     }
     public void print() {
-        //Write to file
+        System.out.println(this.toString());
     }
 
 
