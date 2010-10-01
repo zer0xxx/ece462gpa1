@@ -135,19 +135,36 @@ public class Cube {
         BOTTOM = LEFT;
         LEFT = temp;
     }
+    private void cw(int face) {
+        char face0 = cubic[face][0];
+        char face1 = cubic[face][1];
+        char face2 = cubic[face][2];
+        char face5 = cubic[face][5];
+        cubic[face][0] = cubic[face][6];
+        cubic[face][1] = cubic[face][3];
+        cubic[face][2] = face0;
+        cubic[face][3] = cubic[face][7];
+        cubic[face][5] = face1;
+        cubic[face][6] = cubic[face][8];
+        cubic[face][7] = face5;
+        cubic[face][8] = face2;
+    }
+    private void ccw(int face) {
+        char face0 = cubic[face][0];
+        char face1 = cubic[face][1];
+        char face3 = cubic[face][3];
+        char face6 = cubic[face][6];
+        cubic[face][0] = cubic[face][2];
+        cubic[face][1] = cubic[face][5];
+        cubic[face][2] = cubic[face][8];
+        cubic[face][3] = face1;
+        cubic[face][5] = cubic[face][7];
+        cubic[face][6] = face0;
+        cubic[face][7] = face3;
+        cubic[face][8] = face6;
+    }
     private void fcw() { //rotate FRONT clockwise
-        char front0 = cubic[FRONT][0];
-        char front1 = cubic[FRONT][1];
-        char front2 = cubic[FRONT][2];
-        char front5 = cubic[FRONT][5];
-        cubic[FRONT][0] = cubic[FRONT][6];
-        cubic[FRONT][1] = cubic[FRONT][3];
-        cubic[FRONT][2] = front0;
-        cubic[FRONT][3] = cubic[FRONT][7];
-        cubic[FRONT][5] = front1;
-        cubic[FRONT][6] = cubic[FRONT][8];
-        cubic[FRONT][7] = front5;
-        cubic[FRONT][8] = front2;
+        this.cw(FRONT);
         char top0 = cubic[TOP][0];
         char top3 = cubic[TOP][3];
         char top6 = cubic[TOP][6];
@@ -165,18 +182,7 @@ public class Cube {
         cubic[RIGHT][6] = top6;
     }
     private void fccw() { //rotate FRONT counter-clockwise
-        char front0 = cubic[FRONT][0];
-        char front1 = cubic[FRONT][1];
-        char front3 = cubic[FRONT][3];
-        char front6 = cubic[FRONT][6];
-        cubic[FRONT][0] = cubic[FRONT][2];
-        cubic[FRONT][1] = cubic[FRONT][5];
-        cubic[FRONT][2] = cubic[FRONT][8];
-        cubic[FRONT][3] = front1;
-        cubic[FRONT][5] = cubic[FRONT][7];
-        cubic[FRONT][6] = front0;
-        cubic[FRONT][7] = front3;
-        cubic[FRONT][8] = front6;
+        this.ccw(FRONT);
         char top0 = cubic[TOP][0];
         char top3 = cubic[TOP][3];
         char top6 = cubic[TOP][6];
@@ -192,6 +198,42 @@ public class Cube {
         cubic[LEFT][2] = top6;
         cubic[LEFT][5] = top3;
         cubic[LEFT][8] = top0;
+    }
+    private void lcw() {
+        this.cw(LEFT);
+        char top0 = cubic[TOP][0];
+        char top1 = cubic[TOP][1];
+        char top2 = cubic[TOP][2];
+        cubic[TOP][0] = cubic[BACK][8];
+        cubic[TOP][1] = cubic[BACK][5];
+        cubic[TOP][2] = cubic[BACK][2];
+        cubic[BACK][2] = cubic[BOTTOM][6];
+        cubic[BACK][5] = cubic[BOTTOM][7];
+        cubic[BACK][8] = cubic[BOTTOM][8];
+        cubic[BOTTOM][6] = cubic[FRONT][6];
+        cubic[BOTTOM][7] = cubic[FRONT][3];
+        cubic[BOTTOM][8] = cubic[FRONT][0];
+        cubic[FRONT][6] = top0;
+        cubic[FRONT][3] = top1;
+        cubic[FRONT][0] = top2;
+    }
+    private void lccw() {
+        this.ccw(LEFT);
+        char top0 = cubic[TOP][0];
+        char top1 = cubic[TOP][1];
+        char top2 = cubic[TOP][2];
+        cubic[TOP][0] = cubic[FRONT][0];
+        cubic[TOP][1] = cubic[FRONT][3];
+        cubic[TOP][2] = cubic[FRONT][6];
+        cubic[FRONT][0] = cubic[BOTTOM][8];
+        cubic[FRONT][3] = cubic[BOTTOM][7];
+        cubic[FRONT][6] = cubic[BOTTOM][6];
+        cubic[BOTTOM][6] = cubic[BACK][2];
+        cubic[BOTTOM][7] = cubic[BACK][5];
+        cubic[BOTTOM][8] = cubic[BACK][8];
+        cubic[BACK][2] = top2;
+        cubic[BACK][5] = top1;
+        cubic[BACK][8] = top0;
     }
     public void manipulate(String command) {
         if (command.equals("X")) {
@@ -227,9 +269,9 @@ public class Cube {
         } else if (command.equals("R'")) {
             //this.rccw();
         } else if (command.equals("L")) {
-            //this.lcw();
+            this.lcw();
         } else if (command.equals("L'")) {
-            //this.lccw();
+            this.lccw();
         } else if (command.equals("RESET")) {
             this.reset();
         } else if (command.equals("OUTPUT")) {
