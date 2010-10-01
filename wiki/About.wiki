@@ -3,6 +3,7 @@ About the Rubik's Cube GPA1 Project
 = Introduction =
 
 We are building a text based Rubik's Cube. The project specifications can be found here:
+
 https://engineering.purdue.edu/OOSD/F2010/Assignments/group/stage1.html
 
 
