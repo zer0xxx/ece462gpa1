@@ -75,12 +75,12 @@ public class Cube {
                 }
             }
         }
-        TOP = 0;
-        FRONT = 1;
-        RIGHT = 2;
-        BACK = 3;
-        LEFT = 4;
-        BOTTOM = 5;
+        TOP = YELLOW;
+        FRONT = RED;
+        RIGHT = GREEN;
+        BACK = ORANGE;
+        LEFT = BLUE;
+        BOTTOM = WHITE;
     }
     @Override
     public String toString() {
