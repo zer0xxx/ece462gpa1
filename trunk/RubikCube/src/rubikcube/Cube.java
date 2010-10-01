@@ -37,12 +37,12 @@ public class Cube {
                 k++;
             }
         }
-        TOP = 0;
-        FRONT = 1;
-        RIGHT = 2;
-        BACK = 3;
-        LEFT = 4;
-        BOTTOM = 5;
+        TOP = YELLOW;
+        FRONT = RED;
+        RIGHT = GREEN;
+        BACK = ORANGE;
+        LEFT = BLUE;
+        BOTTOM = WHITE;
     }
     public void reset() {
         String CubeInText =
@@ -55,12 +55,12 @@ public class Cube {
                 k++;
             }
         }
-        TOP = 0;
-        FRONT = 1;
-        RIGHT = 2;
-        BACK = 3;
-        LEFT = 4;
-        BOTTOM = 5;
+        TOP = YELLOW;
+        FRONT = RED;
+        RIGHT = GREEN;
+        BACK = ORANGE;
+        LEFT = BLUE;
+        BOTTOM = WHITE;
     }
     public void change(String CubeInText) {
         if (CubeInText.length() != 54) {
