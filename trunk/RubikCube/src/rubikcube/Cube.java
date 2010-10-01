@@ -16,7 +16,11 @@ public class Cube {
     private final static int ORANGE = 3;
     private final static int BLUE = 4;
     private final static int WHITE = 5;
-    private char[][] cubic = new char[6][9];
+    private char[][] cubic = new char[6][10]; // Blaine - 1 unused location cubic[color][0] 
+                                              // but allows addressing as cubic[color][1-9]
+                                              // corresponding directly to cube model we have.
+                                              // Effectively makes it easier to visualize
+                                              // the array exactly as the paper cube appears.
 
     private int FRONT;
     private int BACK;
@@ -26,31 +30,15 @@ public class Cube {
     private int RIGHT;
 
     public Cube() {
-        //parse string into Lists
-        String CubeInText =
-                "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW";
-        char[] CubeInChar = CubeInText.toCharArray();
-        int k = 0;
-        for(int i = 0; i < 6; i++) {
-            for(int j = 0; j < 9; j++) {
-                cubic[i][j] = CubeInChar[k];
-                k++;
-            }
-        }
-        TOP = YELLOW;
-        FRONT = RED;
-        RIGHT = GREEN;
-        BACK = ORANGE;
-        LEFT = BLUE;
-        BOTTOM = WHITE;
+        reset(); // Blaine - Code reuse
     }
     public void reset() {
         String CubeInText =
                 "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW";
         char[] CubeInChar = CubeInText.toCharArray();
         int k = 0;
-        for(int i = 0; i < 6; i++) {
-            for(int j = 0; j < 9; j++) {
+        for(int i = 1; i <= 6; i++) {
+            for(int j = 1; j <= 9; j++) {
                 cubic[i][j] = CubeInChar[k];
                 k++;
             }
@@ -68,8 +56,8 @@ public class Cube {
         } else {
             char[] CubeInChar = CubeInText.toCharArray();
             int k = 0;
-            for (int i = 0; i < 6; i++) {
-                for (int j = 0; j < 9; j++) {
+            for (int i = 1; i <= 6; i++) {
+                for (int j = 1; j <= 9; j++) {
                     cubic[i][j] = CubeInChar[k];
                     k++;
                 }
@@ -135,185 +123,120 @@ public class Cube {
         BOTTOM = LEFT;
         LEFT = temp;
     }
-    private void cw(int face) { //rotates the face but not border squares
-        char face0 = cubic[face][0];
-        char face1 = cubic[face][1];
-        char face2 = cubic[face][2];
-        char face5 = cubic[face][5];
-        cubic[face][0] = cubic[face][6];
+    
+    // Blaine - Yes, I deleted the code you had so far.  The rotate by face works correctly,
+    // but the rotations on the bordering cube regions fall apart once the entire cube is
+    // rotated.  It is impossible to generalize the cube rotations without complex algorithms
+    // or a plethora of case statements to rotate based upon "front", "right", etc.
+    // as the constraint.  The easiest way will be to rotate based upon side color because
+    // every single time, the border of any given side will be the same.  This means that 
+    // multiple cases for each "side" will not have to be created.  I will take charge of 
+    // generating the algoritm for the cube rotations.  I appreciate the initiative, however.
+    // I don't mean to come off as an ass.  The face rotations were great.  I rewrote them as
+    // practice and in the format I chose, but we can alter some things later if needed.
+    
+    private void rotateFace( int face, String dir )
+    {
+      if( dir.equals("cw") )
+      {
+        char t2 = cubic[face][2];
+        char t3 = cubic[face][3];
+        cubic[face][3] = cubic[face][1];
+        cubic[face][2] = cubic[face][4];
+        cubic[face][1] = cubic[face][7];
+        cuibc[face][4] = cubic[face][8];
+        cubic[face][7] = cubic[face][9];
+        cubic[face][8] = cubic[face][6];
+        cubic[face][9] = t3;
+        cubic[face][6] = t2; 
+      }
+      else if( dir.equals("ccw") )
+      {
+        char t1 = cubic[face][1];
+        char t2 = cubic[face][2];
         cubic[face][1] = cubic[face][3];
-        cubic[face][2] = face0;
-        cubic[face][3] = cubic[face][7];
-        cubic[face][5] = face1;
+        cubic[face][2] = cubic[face][6];
+        cubic[face][3] = cubic[face][9];
         cubic[face][6] = cubic[face][8];
-        cubic[face][7] = face5;
-        cubic[face][8] = face2;
+        cubic[face][9] = cubic[face][7];
+        cubic[face][8] = cubic[face][4];
+        cubic[face][7] = t1;
+        cubic[face][4] = t2;
+      }
     }
-    private void ccw(int face) { //rotates the face but not border squares
-        char face0 = cubic[face][0];
-        char face1 = cubic[face][1];
-        char face3 = cubic[face][3];
-        char face6 = cubic[face][6];
-        cubic[face][0] = cubic[face][2];
-        cubic[face][1] = cubic[face][5];
-        cubic[face][2] = cubic[face][8];
-        cubic[face][3] = face1;
-        cubic[face][5] = cubic[face][7];
-        cubic[face][6] = face0;
-        cubic[face][7] = face3;
-        cubic[face][8] = face6;
+    
+    private void rotate( int face, String dir );
+    {
+      rotate( face, dir ); // This calls the rotate face method
+      
+      switch( face )
+      {
+        case YELLOW:
+          System.out.println("Rotate Yellow " + dir );
+          break;
+        case RED:
+          System.out.println("Rotate Red " + dir );
+          break;
+        case GREEN:
+          System.out.println("Rotate Green " + dir );
+          break;
+        case ORANGE:
+          System.out.println("Rotate Orange " + dir );
+          break;
+        case BLUE:
+          System.out.println("Rotate Blue " + dir );
+          break;
+        case WHITE:
+          System.out.println("Rotate White " + dir );
+          break;
+      }
+      
     }
-    private void fcw() { //rotate FRONT clockwise
-        this.cw(FRONT);
-        char top0 = cubic[TOP][0];
-        char top3 = cubic[TOP][3];
-        char top6 = cubic[TOP][6];
-        cubic[TOP][0] = cubic[LEFT][8];
-        cubic[TOP][3] = cubic[LEFT][5];
-        cubic[TOP][6] = cubic[LEFT][2];
-        cubic[LEFT][2] = cubic[BOTTOM][6];
-        cubic[LEFT][5] = cubic[BOTTOM][3];
-        cubic[LEFT][8] = cubic[BOTTOM][0];
-        cubic[BOTTOM][6] = cubic[RIGHT][6];
-        cubic[BOTTOM][3] = cubic[RIGHT][3];
-        cubic[BOTTOM][0] = cubic[RIGHT][0];
-        cubic[RIGHT][0] = top0;
-        cubic[RIGHT][3] = top3;
-        cubic[RIGHT][6] = top6;
-    }
-    private void fccw() { //rotate FRONT counter-clockwise
-        this.ccw(FRONT);
-        char top0 = cubic[TOP][0];
-        char top3 = cubic[TOP][3];
-        char top6 = cubic[TOP][6];
-        cubic[TOP][0] = cubic[RIGHT][0];
-        cubic[TOP][3] = cubic[RIGHT][3];
-        cubic[TOP][6] = cubic[RIGHT][6];
-        cubic[RIGHT][0] = cubic[BOTTOM][0];
-        cubic[RIGHT][3] = cubic[BOTTOM][3];
-        cubic[RIGHT][6] = cubic[BOTTOM][6];
-        cubic[BOTTOM][6] = cubic[LEFT][2];
-        cubic[BOTTOM][3] = cubic[LEFT][5];
-        cubic[BOTTOM][0] = cubic[LEFT][8];
-        cubic[LEFT][2] = top6;
-        cubic[LEFT][5] = top3;
-        cubic[LEFT][8] = top0;
-    }
-    private void lcw() { //rotate LEFT clockwise
-        this.cw(LEFT);
-        char top0 = cubic[TOP][0];
-        char top1 = cubic[TOP][1];
-        char top2 = cubic[TOP][2];
-        cubic[TOP][0] = cubic[BACK][8];
-        cubic[TOP][1] = cubic[BACK][5];
-        cubic[TOP][2] = cubic[BACK][2];
-        cubic[BACK][2] = cubic[BOTTOM][6];
-        cubic[BACK][5] = cubic[BOTTOM][7];
-        cubic[BACK][8] = cubic[BOTTOM][8];
-        cubic[BOTTOM][6] = cubic[FRONT][6];
-        cubic[BOTTOM][7] = cubic[FRONT][3];
-        cubic[BOTTOM][8] = cubic[FRONT][0];
-        cubic[FRONT][6] = top0;
-        cubic[FRONT][3] = top1;
-        cubic[FRONT][0] = top2;
-    }
-    private void lccw() { //rotate LEFT counter-clockwise
-        this.ccw(LEFT);
-        char top0 = cubic[TOP][0];
-        char top1 = cubic[TOP][1];
-        char top2 = cubic[TOP][2];
-        cubic[TOP][0] = cubic[FRONT][0];
-        cubic[TOP][1] = cubic[FRONT][3];
-        cubic[TOP][2] = cubic[FRONT][6];
-        cubic[FRONT][0] = cubic[BOTTOM][8];
-        cubic[FRONT][3] = cubic[BOTTOM][7];
-        cubic[FRONT][6] = cubic[BOTTOM][6];
-        cubic[BOTTOM][6] = cubic[BACK][2];
-        cubic[BOTTOM][7] = cubic[BACK][5];
-        cubic[BOTTOM][8] = cubic[BACK][8];
-        cubic[BACK][2] = top2;
-        cubic[BACK][5] = top1;
-        cubic[BACK][8] = top0;
-    }
-    private void rcw() { //rotate RIGHT clockwise
-        this.cw(RIGHT);
-        char top6 = cubic[TOP][6];
-        char top7 = cubic[TOP][7];
-        char top8 = cubic[TOP][8];
-        cubic[TOP][6] = cubic[FRONT][8];
-        cubic[TOP][7] = cubic[FRONT][5];
-        cubic[TOP][8] = cubic[FRONT][2];
-        cubic[FRONT][2] = cubic[BOTTOM][0];
-        cubic[FRONT][5] = cubic[BOTTOM][1];
-        cubic[FRONT][8] = cubic[BOTTOM][2];
-        cubic[BOTTOM][0] = cubic[BACK][6];
-        cubic[BOTTOM][1] = cubic[BACK][3];
-        cubic[BOTTOM][2] = cubic[BACK][0];
-        cubic[BACK][0] = top6;
-        cubic[BACK][3] = top7;
-        cubic[BACK][6] = top8;
-    }
-    private void rccw() { //rotate RIGHT counter-clockwise
-        this.ccw(RIGHT);
-        char top6 = cubic[TOP][6];
-        char top7 = cubic[TOP][7];
-        char top8 = cubic[TOP][8];
-        cubic[TOP][6] = cubic[BACK][0];
-        cubic[TOP][7] = cubic[BACK][3];
-        cubic[TOP][8] = cubic[BACK][6];
-        cubic[BACK][0] = cubic[BOTTOM][2];
-        cubic[BACK][3] = cubic[BOTTOM][1];
-        cubic[BACK][6] = cubic[BOTTOM][0];
-        cubic[BOTTOM][0] = cubic[FRONT][2];
-        cubic[BOTTOM][1] = cubic[FRONT][5];
-        cubic[BOTTOM][2] = cubic[FRONT][8];
-        cubic[FRONT][2] = top8;
-        cubic[FRONT][5] = top7;
-        cubic[FRONT][8] = top6;
-    }
+    
+    
     public void manipulate(String command) {
         if (command.equals("X")) {
-            this.xcw();
+            xcw();
         } else if (command.equals("X'")) {
-            this.xccw();
+            xccw();
         } else if (command.equals("Y")) {
-            this.ycw();
+            ycw();
         } else if (command.equals("Y'")) {
-            this.yccw();
+            yccw();
         } else if (command.equals("Z")) {
-            this.zcw();
+            zcw();
         } else if (command.equals("Z'")) {
-            this.zccw();
+            zccw();
         } else if (command.equals("U")) {
-            //this.ucw();
+            rotate(TOP,"cw");
         } else if (command.equals("U'")) {
-            //this.uccw();
+            rotate(TOP,"ccw");
         } else if (command.equals("D")) {
-            //this.dcw();
+            rotate(BOTTOM,"cw");
         } else if (command.equals("D'")) {
-            //this.dccw();
+            rotate(BOTTOM,"ccw");
         } else if (command.equals("F")) {
-            this.fcw();
+            rotate(FRONT,"cw");
         } else if (command.equals("F'")) {
-            this.fccw();
+            rotate(FRONT,"ccw");
         } else if (command.equals("B")) {
-            //this.bcw();
+            rotate(BACK,"cw");
         } else if (command.equals("B'")) {
-            //this.bccw();
+            rotate(BACK,"ccw");
         } else if (command.equals("R")) {
-            this.rcw();
+            rotate(RIGHT,"cw");
         } else if (command.equals("R'")) {
-            this.rccw();
+            rotate(RIGHT,"ccw");
         } else if (command.equals("L")) {
-            this.lcw();
+            rotate(LEFT,"cw");
         } else if (command.equals("L'")) {
-            this.lccw();
+            rotate(LEFT,"ccw");
         } else if (command.equals("RESET")) {
-            this.reset();
+            reset();
         } else if (command.equals("OUTPUT")) {
-            this.print();
+            print();
         } else {
-            this.change(command);
+            change(command);
         }
     }
 }
