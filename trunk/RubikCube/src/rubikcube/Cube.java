@@ -93,43 +93,143 @@ public class Cube {
     public void print() {
         System.out.println(this.toString());
     }
+    private void xcw() { //rotate clockwise about x-axis
+        int temp = TOP;
+        TOP = FRONT;
+        FRONT = BOTTOM;
+        BOTTOM = BACK;
+        BACK = temp; //BACK = TOP
+    }
+    private void xccw() { //rotate counter-clockwise about x-axis
+        int temp = TOP;
+        TOP = BACK;
+        BACK = BOTTOM;
+        BOTTOM = FRONT;
+        FRONT = temp; //FRONT = TOP
+    }
+    private void ycw() { //rotate clockwise about y-axis
+        int temp = RIGHT;
+        RIGHT = BACK;
+        BACK = LEFT;
+        LEFT = FRONT;
+        FRONT = temp;
+    }
+    private void yccw() { //rotate counter-clockwise about y-axis
+        int temp = RIGHT;
+        RIGHT = FRONT;
+        FRONT = LEFT;
+        LEFT = BACK;
+        BACK = temp;
+    }
+    private void zcw() { //rotate clockwise about z-axis
+        int temp = TOP;
+        TOP = LEFT;
+        LEFT = BOTTOM;
+        BOTTOM = RIGHT;
+        RIGHT = temp;
+    }
+    private void zccw() { //rotate counter-clockwise about z-axis
+        int temp = TOP;
+        TOP = RIGHT;
+        RIGHT = BOTTOM;
+        BOTTOM = LEFT;
+        LEFT = temp;
+    }
+    private void fcw() { //rotate FRONT clockwise
+        char front0 = cubic[FRONT][0];
+        char front1 = cubic[FRONT][1];
+        char front2 = cubic[FRONT][2];
+        char front5 = cubic[FRONT][5];
+        cubic[FRONT][0] = cubic[FRONT][6];
+        cubic[FRONT][1] = cubic[FRONT][3];
+        cubic[FRONT][2] = front0;
+        cubic[FRONT][3] = cubic[FRONT][7];
+        cubic[FRONT][5] = front1;
+        cubic[FRONT][6] = cubic[FRONT][8];
+        cubic[FRONT][7] = front5;
+        cubic[FRONT][8] = front2;
+        char top0 = cubic[TOP][0];
+        char top3 = cubic[TOP][3];
+        char top6 = cubic[TOP][6];
+        cubic[TOP][0] = cubic[LEFT][8];
+        cubic[TOP][3] = cubic[LEFT][5];
+        cubic[TOP][6] = cubic[LEFT][2];
+        cubic[LEFT][2] = cubic[BOTTOM][6];
+        cubic[LEFT][5] = cubic[BOTTOM][3];
+        cubic[LEFT][8] = cubic[BOTTOM][0];
+        cubic[BOTTOM][6] = cubic[RIGHT][6];
+        cubic[BOTTOM][3] = cubic[RIGHT][3];
+        cubic[BOTTOM][0] = cubic[RIGHT][0];
+        cubic[RIGHT][0] = top0;
+        cubic[RIGHT][3] = top3;
+        cubic[RIGHT][6] = top6;
+    }
+    private void fccw() { //rotate FRONT counter-clockwise
+        char front0 = cubic[FRONT][0];
+        char front1 = cubic[FRONT][1];
+        char front3 = cubic[FRONT][3];
+        char front6 = cubic[FRONT][6];
+        cubic[FRONT][0] = cubic[FRONT][2];
+        cubic[FRONT][1] = cubic[FRONT][5];
+        cubic[FRONT][2] = cubic[FRONT][8];
+        cubic[FRONT][3] = front1;
+        cubic[FRONT][5] = cubic[FRONT][7];
+        cubic[FRONT][6] = front0;
+        cubic[FRONT][7] = front3;
+        cubic[FRONT][8] = front6;
+        char top0 = cubic[TOP][0];
+        char top3 = cubic[TOP][3];
+        char top6 = cubic[TOP][6];
+        cubic[TOP][0] = cubic[RIGHT][0];
+        cubic[TOP][3] = cubic[RIGHT][3];
+        cubic[TOP][6] = cubic[RIGHT][6];
+        cubic[RIGHT][0] = cubic[BOTTOM][0];
+        cubic[RIGHT][3] = cubic[BOTTOM][3];
+        cubic[RIGHT][6] = cubic[BOTTOM][6];
+        cubic[BOTTOM][6] = cubic[LEFT][2];
+        cubic[BOTTOM][3] = cubic[LEFT][5];
+        cubic[BOTTOM][0] = cubic[LEFT][8];
+        cubic[LEFT][2] = top6;
+        cubic[LEFT][5] = top3;
+        cubic[LEFT][8] = top0;
+    }
     public void manipulate(String command) {
         if (command.equals("X")) {
-            //Call the X function
+            this.xcw();
         } else if (command.equals("X'")) {
-            //Call the X' function
+            this.xccw();
         } else if (command.equals("Y")) {
-            //call the Y function
+            this.ycw();
         } else if (command.equals("Y'")) {
-            //call the Y' function
+            this.yccw();
         } else if (command.equals("Z")) {
-            //call the Z function
+            this.zcw();
         } else if (command.equals("Z'")) {
-            //call the Z' function
+            this.zccw();
         } else if (command.equals("U")) {
-            //turn the top face
+            //this.ucw();
         } else if (command.equals("U'")) {
-            //turn the top face
+            //this.uccw();
         } else if (command.equals("D")) {
-            //turn the bottom face
+            //this.dcw();
         } else if (command.equals("D'")) {
-            //turn the bottom face
+            //this.dccw();
         } else if (command.equals("F")) {
-            //turn the front face
+            this.fcw();
         } else if (command.equals("F'")) {
-            //turn the front face
+            this.fccw();
         } else if (command.equals("B")) {
-            //turn the back face
+            //this.bcw();
         } else if (command.equals("B'")) {
-            //turn the back face
+            //this.bccw();
         } else if (command.equals("R")) {
-            //turn the right face
+            //this.rcw();
         } else if (command.equals("R'")) {
-            //turn the right face
+            //this.rccw();
         } else if (command.equals("L")) {
-            //turn the left face
+            //this.lcw();
         } else if (command.equals("L'")) {
-            //turn the left face
+            //this.lccw();
         } else if (command.equals("RESET")) {
             this.reset();
         } else if (command.equals("OUTPUT")) {
