@@ -10,6 +10,7 @@ https://engineering.purdue.edu/OOSD/F2010/Assignments/group/stage1.html
 
 Important notes:
  - Update before you commit
+
  - The solution provided to us only works on a 64 bit machine. You will most likely have to use the computers in EE306 in order to work with the solution. However, there is a sample with it's output on the website which may be useful. 
 
  - There are two private functions within the Cube.java worth mentioning: cw() and ccw(). These functions will rotate the face (not the bordering squares) clockwise and counter-clockwise respectively. There is one argument which is the number corresponding to the side (ex. this.ccw(FRONT)). This should make coding the commands much easier. 
