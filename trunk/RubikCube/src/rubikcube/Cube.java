@@ -135,7 +135,7 @@ public class Cube {
         BOTTOM = LEFT;
         LEFT = temp;
     }
-    private void cw(int face) {
+    private void cw(int face) { //rotates the face but not border squares
         char face0 = cubic[face][0];
         char face1 = cubic[face][1];
         char face2 = cubic[face][2];
@@ -149,7 +149,7 @@ public class Cube {
         cubic[face][7] = face5;
         cubic[face][8] = face2;
     }
-    private void ccw(int face) {
+    private void ccw(int face) { //rotates the face but not border squares
         char face0 = cubic[face][0];
         char face1 = cubic[face][1];
         char face3 = cubic[face][3];
@@ -199,7 +199,7 @@ public class Cube {
         cubic[LEFT][5] = top3;
         cubic[LEFT][8] = top0;
     }
-    private void lcw() {
+    private void lcw() { //rotate LEFT clockwise
         this.cw(LEFT);
         char top0 = cubic[TOP][0];
         char top1 = cubic[TOP][1];
@@ -217,7 +217,7 @@ public class Cube {
         cubic[FRONT][3] = top1;
         cubic[FRONT][0] = top2;
     }
-    private void lccw() {
+    private void lccw() { //rotate LEFT counter-clockwise
         this.ccw(LEFT);
         char top0 = cubic[TOP][0];
         char top1 = cubic[TOP][1];
@@ -234,6 +234,42 @@ public class Cube {
         cubic[BACK][2] = top2;
         cubic[BACK][5] = top1;
         cubic[BACK][8] = top0;
+    }
+    private void rcw() { //rotate RIGHT clockwise
+        this.cw(RIGHT);
+        char top6 = cubic[TOP][6];
+        char top7 = cubic[TOP][7];
+        char top8 = cubic[TOP][8];
+        cubic[TOP][6] = cubic[FRONT][8];
+        cubic[TOP][7] = cubic[FRONT][5];
+        cubic[TOP][8] = cubic[FRONT][2];
+        cubic[FRONT][2] = cubic[BOTTOM][0];
+        cubic[FRONT][5] = cubic[BOTTOM][1];
+        cubic[FRONT][8] = cubic[BOTTOM][2];
+        cubic[BOTTOM][0] = cubic[BACK][6];
+        cubic[BOTTOM][1] = cubic[BACK][3];
+        cubic[BOTTOM][2] = cubic[BACK][0];
+        cubic[BACK][0] = top6;
+        cubic[BACK][3] = top7;
+        cubic[BACK][6] = top8;
+    }
+    private void rccw() { //rotate RIGHT counter-clockwise
+        this.ccw(RIGHT);
+        char top6 = cubic[TOP][6];
+        char top7 = cubic[TOP][7];
+        char top8 = cubic[TOP][8];
+        cubic[TOP][6] = cubic[BACK][0];
+        cubic[TOP][7] = cubic[BACK][3];
+        cubic[TOP][8] = cubic[BACK][6];
+        cubic[BACK][0] = cubic[BOTTOM][2];
+        cubic[BACK][3] = cubic[BOTTOM][1];
+        cubic[BACK][6] = cubic[BOTTOM][0];
+        cubic[BOTTOM][0] = cubic[FRONT][2];
+        cubic[BOTTOM][1] = cubic[FRONT][5];
+        cubic[BOTTOM][2] = cubic[FRONT][8];
+        cubic[FRONT][2] = top8;
+        cubic[FRONT][5] = top7;
+        cubic[FRONT][8] = top6;
     }
     public void manipulate(String command) {
         if (command.equals("X")) {
@@ -265,9 +301,9 @@ public class Cube {
         } else if (command.equals("B'")) {
             //this.bccw();
         } else if (command.equals("R")) {
-            //this.rcw();
+            this.rcw();
         } else if (command.equals("R'")) {
-            //this.rccw();
+            this.rccw();
         } else if (command.equals("L")) {
             this.lcw();
         } else if (command.equals("L'")) {
