@@ -30,14 +30,14 @@ public class Cube {
     private int RIGHT;
 
     public Cube() {
-        reset(); // Blaine - Code reuse
+        this.reset(); // Blaine - Code reuse
     }
     public void reset() {
         String CubeInText =
                 "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW";
         char[] CubeInChar = CubeInText.toCharArray();
         int k = 0;
-        for(int i = 1; i <= 6; i++) {
+        for(int i = 0; i < 6; i++) {
             for(int j = 1; j <= 9; j++) {
                 cubic[i][j] = CubeInChar[k];
                 k++;
@@ -124,17 +124,6 @@ public class Cube {
         LEFT = temp;
     }
     
-    // Blaine - Yes, I deleted the code you had so far.  The rotate by face works correctly,
-    // but the rotations on the bordering cube regions fall apart once the entire cube is
-    // rotated.  It is impossible to generalize the cube rotations without complex algorithms
-    // or a plethora of case statements to rotate based upon "front", "right", etc.
-    // as the constraint.  The easiest way will be to rotate based upon side color because
-    // every single time, the border of any given side will be the same.  This means that 
-    // multiple cases for each "side" will not have to be created.  I will take charge of 
-    // generating the algoritm for the cube rotations.  I appreciate the initiative, however.
-    // I don't mean to come off as an ass.  The face rotations were great.  I rewrote them as
-    // practice and in the format I chose, but we can alter some things later if needed.
-    
     private void rotateFace( int face, String dir )
     {
       if( dir.equals("cw") )
@@ -144,7 +133,7 @@ public class Cube {
         cubic[face][3] = cubic[face][1];
         cubic[face][2] = cubic[face][4];
         cubic[face][1] = cubic[face][7];
-        cuibc[face][4] = cubic[face][8];
+        cubic[face][4] = cubic[face][8];
         cubic[face][7] = cubic[face][9];
         cubic[face][8] = cubic[face][6];
         cubic[face][9] = t3;
@@ -165,34 +154,275 @@ public class Cube {
       }
     }
     
-    private void rotate( int face, String dir );
+    private void rotate( int face, String dir )
     {
-      rotate( face, dir ); // This calls the rotate face method
+      this.rotateFace( face, dir ); // This calls the rotate face method
+      
+      rotateFace(face,dir);
       
       switch( face )
       {
         case YELLOW:
-          System.out.println("Rotate Yellow " + dir );
+          rotateYellow(dir);
           break;
         case RED:
-          System.out.println("Rotate Red " + dir );
+          rotateRed(dir);
           break;
         case GREEN:
-          System.out.println("Rotate Green " + dir );
+          rotateGreen(dir);
           break;
         case ORANGE:
-          System.out.println("Rotate Orange " + dir );
+          rotateOrange(dir);
           break;
         case BLUE:
-          System.out.println("Rotate Blue " + dir );
+          rotateBlue(dir);
           break;
         case WHITE:
-          System.out.println("Rotate White " + dir );
+          rotateWhite(dir);
           break;
       }
       
     }
     
+    private void rotateYellow( String dir )
+    {
+    	//System.out.println("Rotate Yellow " + dir );
+    	
+    	char t1 = cubic[BLUE][1];
+        char t2 = cubic[BLUE][2];
+        char t3 = cubic[BLUE][3];
+    	
+    	if( dir.equals("cw") )
+        {
+          cubic[BLUE][1] = cubic[RED][1];
+          cubic[BLUE][2] = cubic[RED][2];
+          cubic[BLUE][3] = cubic[RED][3];
+          cubic[RED][1] = cubic[GREEN][1];
+          cubic[RED][2] = cubic[GREEN][2];
+          cubic[RED][3] = cubic[GREEN][3];
+          cubic[GREEN][1] = cubic[ORANGE][1];
+          cubic[GREEN][2] = cubic[ORANGE][2];
+          cubic[GREEN][3] = cubic[ORANGE][3];
+          cubic[ORANGE][1] = t1;
+          cubic[ORANGE][2] = t2;
+          cubic[ORANGE][3] = t3;
+        }
+        else if( dir.equals("ccw") )
+        {
+          cubic[BLUE][3] = cubic[ORANGE][3];
+          cubic[BLUE][2] = cubic[ORANGE][2];
+          cubic[BLUE][1] = cubic[ORANGE][1];
+          cubic[ORANGE][3] = cubic[GREEN][3];
+          cubic[ORANGE][2] = cubic[GREEN][2];
+          cubic[ORANGE][1] = cubic[GREEN][1];
+          cubic[GREEN][3] = cubic[RED][3];
+          cubic[GREEN][2] = cubic[RED][2];
+          cubic[GREEN][1] = cubic[RED][1];
+          cubic[RED][3] = t3;
+          cubic[RED][2] = t2;
+          cubic[RED][1] = t1;
+        }
+    }
+    
+    private void rotateRed( String dir )
+    {
+    	//System.out.println("Rotate Red " + dir );
+    	
+    	char t1 = cubic[YELLOW][1];
+        char t4 = cubic[YELLOW][4];
+        char t7 = cubic[YELLOW][7];
+    	
+    	if( dir.equals("cw") )
+        {
+    		cubic[YELLOW][7] = cubic[BLUE][3];
+    		cubic[YELLOW][4] = cubic[BLUE][6];
+    		cubic[YELLOW][1] = cubic[BLUE][9];
+    		cubic[BLUE][3] = cubic[WHITE][7];
+    		cubic[BLUE][6] = cubic[WHITE][4];
+    		cubic[BLUE][9] = cubic[WHITE][1];
+    		cubic[WHITE][7] = cubic[GREEN][7];
+    		cubic[WHITE][4] = cubic[GREEN][4];
+    		cubic[WHITE][1] = cubic[GREEN][1];
+    		cubic[GREEN][7] = t7;
+    		cubic[GREEN][4] = t4;
+    		cubic[GREEN][1] = t1;
+        }
+        else if( dir.equals("ccw") )
+        {
+        	cubic[YELLOW][1] = cubic[GREEN][1];
+        	cubic[YELLOW][4] = cubic[GREEN][4];
+        	cubic[YELLOW][7] = cubic[GREEN][7];
+        	cubic[GREEN][1] = cubic[WHITE][1];
+        	cubic[GREEN][4] = cubic[WHITE][4];
+        	cubic[GREEN][7] = cubic[WHITE][7];
+        	cubic[WHITE][1] = cubic[BLUE][9];
+        	cubic[WHITE][4] = cubic[BLUE][6];
+        	cubic[WHITE][7] = cubic[BLUE][3];
+        	cubic[BLUE][9] = t1;
+        	cubic[BLUE][6] = t4;
+        	cubic[BLUE][3] = t7;
+        }
+    }
+    
+    private void rotateGreen( String dir )
+    {
+    	//System.out.println("Rotate Green " + dir );
+    	
+    	char t7 = cubic[YELLOW][7];
+        char t8 = cubic[YELLOW][8];
+        char t9 = cubic[YELLOW][9];
+    	
+    	if( dir.equals("cw") )
+        {
+    		cubic[YELLOW][9] = cubic[RED][3];
+    		cubic[YELLOW][8] = cubic[RED][6];
+    		cubic[YELLOW][7] = cubic[RED][9];
+    		cubic[RED][3] = cubic[WHITE][1];
+    		cubic[RED][6] = cubic[WHITE][2];
+    		cubic[RED][9] = cubic[WHITE][3];
+    		cubic[WHITE][1] = cubic[ORANGE][7];
+    		cubic[WHITE][2] = cubic[ORANGE][4];
+    		cubic[WHITE][3] = cubic[ORANGE][1];
+    		cubic[ORANGE][7] = t9;
+    		cubic[ORANGE][4] = t8;
+    		cubic[ORANGE][1] = t7;
+        }
+        else if( dir.equals("ccw") )
+        {
+        	cubic[YELLOW][7] = cubic[ORANGE][1];
+        	cubic[YELLOW][8] = cubic[ORANGE][4];
+        	cubic[YELLOW][9] = cubic[ORANGE][7];
+        	cubic[ORANGE][1] = cubic[WHITE][3];
+        	cubic[ORANGE][4] = cubic[WHITE][2];
+        	cubic[ORANGE][7] = cubic[WHITE][1];
+        	cubic[WHITE][3] = cubic[RED][9];
+        	cubic[WHITE][2] = cubic[RED][6];
+        	cubic[WHITE][1] = cubic[RED][3];
+        	cubic[RED][9] = t7;
+        	cubic[RED][6] = t8;
+        	cubic[RED][3] = t9;
+        }
+    }
+    
+    private void rotateOrange( String dir )
+    {
+    	//System.out.println("Rotate Orange " + dir );
+    	
+    	char t3 = cubic[YELLOW][3];
+        char t6 = cubic[YELLOW][6];
+        char t9 = cubic[YELLOW][9];
+    	
+    	if( dir.equals("cw") )
+        {
+    		cubic[YELLOW][3] = cubic[GREEN][3];
+    		cubic[YELLOW][6] = cubic[GREEN][6];
+    		cubic[YELLOW][9] = cubic[GREEN][9];
+    		cubic[GREEN][3] = cubic[WHITE][3];
+    		cubic[GREEN][6] = cubic[WHITE][6];
+    		cubic[GREEN][9] = cubic[WHITE][9];
+    		cubic[WHITE][3] = cubic[BLUE][7];
+    		cubic[WHITE][6] = cubic[BLUE][4];
+    		cubic[WHITE][9] = cubic[BLUE][1];
+    		cubic[BLUE][7] = t3;
+    		cubic[BLUE][4] = t6;
+    		cubic[BLUE][1] = t9;
+        }
+        else if( dir.equals("ccw") )
+        {
+        	cubic[YELLOW][9] = cubic[BLUE][1];
+        	cubic[YELLOW][6] = cubic[BLUE][4];
+        	cubic[YELLOW][3] = cubic[BLUE][7];
+        	cubic[BLUE][1] = cubic[WHITE][9];
+        	cubic[BLUE][4] = cubic[WHITE][6];
+        	cubic[BLUE][7] = cubic[WHITE][3];
+        	cubic[WHITE][9] = cubic[GREEN][9];
+        	cubic[WHITE][6] = cubic[GREEN][6];
+        	cubic[WHITE][3] = cubic[GREEN][3];
+        	cubic[GREEN][9] = t9;
+        	cubic[GREEN][6] = t6;
+        	cubic[GREEN][3] = t3;
+        }
+    }
+    
+    private void rotateBlue( String dir )
+    {
+    	//System.out.println("Rotate Blue " + dir );
+    	
+    	char t1 = cubic[YELLOW][1];
+        char t2 = cubic[YELLOW][2];
+        char t3 = cubic[YELLOW][3];
+    	
+    	if( dir.equals("cw") )
+        {
+    		cubic[YELLOW][1] = cubic[ORANGE][3];
+    		cubic[YELLOW][2] = cubic[ORANGE][6];
+    		cubic[YELLOW][3] = cubic[ORANGE][9];
+    		cubic[ORANGE][3] = cubic[WHITE][9];
+    		cubic[ORANGE][6] = cubic[WHITE][8];
+    		cubic[ORANGE][9] = cubic[WHITE][7];
+    		cubic[WHITE][9] = cubic[RED][7];
+    		cubic[WHITE][8] = cubic[RED][4];
+    		cubic[WHITE][7] = cubic[RED][1];
+    		cubic[RED][7] = t1;
+    		cubic[RED][4] = t2;
+    		cubic[RED][1] = t3;
+        }
+        else if( dir.equals("ccw") )
+        {
+        	cubic[YELLOW][3] = cubic[RED][1];
+        	cubic[YELLOW][2] = cubic[RED][4];
+        	cubic[YELLOW][1] = cubic[RED][7];
+        	cubic[RED][1] = cubic[WHITE][7];
+        	cubic[RED][4] = cubic[WHITE][8];
+        	cubic[RED][7] = cubic[WHITE][9];
+        	cubic[WHITE][7] = cubic[ORANGE][9];
+        	cubic[WHITE][8] = cubic[ORANGE][6];
+        	cubic[WHITE][9] = cubic[ORANGE][3];
+        	cubic[ORANGE][9] = t3;
+        	cubic[ORANGE][6] = t2;
+        	cubic[ORANGE][3] = t1;
+        }
+    }
+    
+    private void rotateWhite( String dir )
+    {
+    	//System.out.println("Rotate White " + dir );
+    	
+    	char t7 = cubic[GREEN][7];
+        char t8 = cubic[GREEN][8];
+        char t9 = cubic[GREEN][9];
+    	
+    	if( dir.equals("cw") )
+        {
+    		cubic[GREEN][9] = cubic[RED][9];
+    		cubic[GREEN][8] = cubic[RED][8];
+    		cubic[GREEN][7] = cubic[RED][7];
+    		cubic[RED][9] = cubic[BLUE][9];
+    		cubic[RED][8] = cubic[BLUE][8];
+    		cubic[RED][7] = cubic[BLUE][7];
+    		cubic[BLUE][9] = cubic[ORANGE][9];
+    		cubic[BLUE][8] = cubic[ORANGE][8];
+    		cubic[BLUE][7] = cubic[ORANGE][7];
+    		cubic[ORANGE][9] = t9;
+    		cubic[ORANGE][8] = t8;
+    		cubic[ORANGE][7] = t7;
+        }
+        else if( dir.equals("ccw") )
+        {
+        	cubic[GREEN][7] = cubic[ORANGE][7];
+        	cubic[GREEN][8] = cubic[ORANGE][8];
+        	cubic[GREEN][9] = cubic[ORANGE][9];
+        	cubic[ORANGE][7] = cubic[BLUE][7];
+        	cubic[ORANGE][8] = cubic[BLUE][8];
+        	cubic[ORANGE][9] = cubic[BLUE][9];
+        	cubic[BLUE][7] = cubic[RED][7];
+        	cubic[BLUE][8] = cubic[RED][8];
+        	cubic[BLUE][9] = cubic[RED][9];
+        	cubic[RED][7] = t7;
+        	cubic[RED][8] = t8;
+        	cubic[RED][9] = t9;
+        }
+    }
     
     public void manipulate(String command) {
         if (command.equals("X")) {
@@ -214,7 +444,7 @@ public class Cube {
         } else if (command.equals("D")) {
             rotate(BOTTOM,"cw");
         } else if (command.equals("D'")) {
-            rotate(BOTTOM,"ccw");
+            rotate(BOTTOM,"6ccw");
         } else if (command.equals("F")) {
             rotate(FRONT,"cw");
         } else if (command.equals("F'")) {
