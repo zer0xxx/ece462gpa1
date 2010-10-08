@@ -122,6 +122,8 @@ public class Cube {
     
     private void rotateFace( int face, String dir )
     {
+      //System.out.println("Face: " + face + " Dir: " + dir );
+      
       if( dir.equals("cw") )
       {
         char t2 = cubic[face][1];
@@ -153,8 +155,6 @@ public class Cube {
     private void rotate( int face, String dir )
     {
       this.rotateFace( face, dir ); // This calls the rotate face method
-      
-      rotateFace(face,dir);
       
       switch( face )
       {
