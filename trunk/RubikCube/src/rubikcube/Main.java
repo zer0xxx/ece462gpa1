@@ -34,12 +34,14 @@ public class Main {
             Cube rubik = new Cube();
             //Read File Line By Line
             while ((strLine = br.readLine()) != null) {
-                rubik.manipulate(strLine);
+                //System.out.println(strLine);
+            	rubik.manipulate(strLine);
             }
             //Close the input stream
             in.close();
         } catch (Exception e) {//Catch exception if any
             System.err.println("Error: " + e.getMessage());
+            //e.printStackTrace();
         }
 
     }
