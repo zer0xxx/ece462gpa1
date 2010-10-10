@@ -224,7 +224,7 @@ public class Cube {
     
     private void rotateRed( String dir )
     {
-    	System.out.println("Rotate Red " + dir );
+    	//System.out.println("Rotate Red " + dir );
     	
     	char t1 = cubic[YELLOW][0];
         char t4 = cubic[YELLOW][3];
