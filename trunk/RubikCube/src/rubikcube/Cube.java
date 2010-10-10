@@ -10,6 +10,8 @@ package rubikcube;
  * @author wgranger
  */
 public class Cube {
+	//The order of color numbers must be the same as required print order,
+	//which is YRGOBW
     private final static int YELLOW = 0;
     private final static int RED = 1;
     private final static int GREEN = 2;
@@ -419,7 +421,6 @@ public class Cube {
         	cubic[RED][8] = t9;
         }
     }
-    
     public void manipulate(String command) {
         if (command.equals("X")) {
             xcw();
@@ -440,7 +441,7 @@ public class Cube {
         } else if (command.equals("D")) {
             rotate(BOTTOM,"cw");
         } else if (command.equals("D'")) {
-            rotate(BOTTOM,"6ccw");
+            rotate(BOTTOM,"ccw");
         } else if (command.equals("F")) {
             rotate(FRONT,"cw");
         } else if (command.equals("F'")) {
