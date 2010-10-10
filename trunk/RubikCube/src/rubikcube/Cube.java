@@ -156,7 +156,7 @@ public class Cube {
     
     private void rotate( int face, String dir )
     {
-      this.rotateFace( face, dir ); // This calls the rotate face method
+      //this.rotateFace( face, dir ); // This calls the rotate face method
       
       switch( face )
       {
