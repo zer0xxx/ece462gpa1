@@ -4,8 +4,10 @@
  */
 package rubikcube;
 
-import java.util.Scanner;
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 
 /**
  *
@@ -16,38 +18,29 @@ public class GPA1 {
     /**
      * @param args the command line arguments
      */
-  public static void main(String[] args) {
-    if (args.length != 1) {
-      //System.err.println("Usage: <file>");
-      //System.exit(0);
-      if(args.length != 0){
-        System.err.println("Usage error");
-        System.exit(0);
-      }
-      Cube rubik = new Cube();
-      Scanner keyboard = new Scanner(System.in);
-      String command = null;
-      command = keyboard.nextLine();
-      //assume the user will always type in correct commands or "exit" to exit.
-      while(!command.equals("exit")){
-        rubik.manipulate(command);
-        command = keyboard.nextLine();
-      }
-    }else{
-      Cube rubik = new Cube();
-      Scanner inputStream = null;
-      String command = null;
-      try {
-        inputStream = new Scanner(new File(args[0]));
-      }catch (Exception e) {//Catch exception if any
-        System.err.println("Error: " + e.getMessage());
-        System.exit(0);
-      }
-      while(inputStream.hasNextLine()){
-        command = inputStream.nextLine();
-        rubik.manipulate(command);
-      }
-      inputStream.close();
+    public static void main(String[] args) {
+        if (args.length != 1) {
+            System.err.println("Usage: <file>");
+            System.exit(0);
+        }
+        try {
+            // Open the file that is the first
+            // command line parameter
+            FileInputStream fstream = new FileInputStream(args[0]);
+            // Get the object of DataInputStream
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String strLine;
+            Cube rubik = new Cube();
+            //Read File Line By Line
+            while ((strLine = br.readLine()) != null) {
+                rubik.manipulate(strLine);
+            }
+            //Close the input stream
+            in.close();
+        } catch (Exception e) {//Catch exception if any
+            System.err.println("Error: " + e.getMessage());
+        }
+
     }
-  }
 }
